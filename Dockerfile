@@ -9,6 +9,8 @@ RUN mv gurobi752 /opt/ && cd /opt/gurobi752/linux64/ && python3 setup.py install
 ENV GUROBI_HOME="/opt/gurobi752/linux64"
 ENV PATH="${PATH}:${GUROBI_HOME}/bin"
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
-ENV GRB_LICENSE_FILE="./"
+
+# license file should be created by app
+ENV GRB_LICENSE_FILE="./gurobi.lic"
 
 WORKDIR /
