@@ -1,14 +1,23 @@
-FROM ubuntu:latest
+# use ubuntu 16.04, since azcopy does not support Ubuntu 18 Bionic
+FROM ubuntu:16.04
 
-RUN apt update && apt install \
-    wget python3 python3-distutils python3-pip  --assume-yes
+# install Python 3.6, as it is a requirement for Gurobi - Python interface
+RUN apt update && apt install software-properties-common --assume-yes
+RUN add-apt-repository ppa:jonathonf/python-3.6 -y && apt-get update && apt-get install python3.6 python3-pip wget --assume-yes
+RUN alias python=python3.6
+RUN alias python3=python3.6
 
 # setup Gurobi 7.5.2
 RUN wget https://packages.gurobi.com/7.5/gurobi7.5.2_linux64.tar.gz && tar xvfz gurobi7.5.2_linux64.tar.gz && rm gurobi7.5.2_linux64.tar.gz
-RUN mv gurobi752 /opt/ && cd /opt/gurobi752/linux64/ && python3 setup.py install
+RUN mv gurobi752 /opt/ && cd /opt/gurobi752/linux64/ && python3.6 setup.py install
 ENV GUROBI_HOME="/opt/gurobi752/linux64"
 ENV PATH="${PATH}:${GUROBI_HOME}/bin"
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
+
+# install azcopy so that stuff can be copied out of the container. azcopy is available at /azcopy/azcopy
+WORKDIR /
+RUN apt-get install rsync libunwind8 -y
+RUN wget -O azcopy.tar.gz https://aka.ms/downloadazcopylinux64 && tar -xf azcopy.tar.gz && rm azcopy.tar.gz && ./install.sh
 
 # license file should be created by app
 ENV GRB_LICENSE_FILE="/gurobi.lic"
