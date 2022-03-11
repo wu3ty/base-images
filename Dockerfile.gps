@@ -1,0 +1,23 @@
+# Load Base Ubuntu Image from Docker Hub
+FROM ubuntu:latest
+
+# Update applications in base image
+RUN apt-get -y update && apt-get install -y
+
+# install simple editor
+RUN apt-get install -y nano bash
+
+# Install Clang Compiler for C++20
+RUN apt-get -y install clang
+
+# Note that Python 3.8 is installed with nano
+
+# Install Clang Compiler for Haskell
+RUN apt-get -y install ghc
+
+# Create working directory and copy some sample testing programs
+RUN mkdir gps
+WORKDIR gps
+COPY ./tests .
+
+CMD ["bash"]
