@@ -1,0 +1,23 @@
+# Load base open VSCode Server image
+FROM gitpod/openvscode-server
+
+# switch to root to install packages...
+USER root 
+
+# Update applications in base image
+RUN apt-get -y update && apt-get install -y
+
+# install simple editor
+RUN apt-get install -y nano bash
+
+# Install Clang Compiler for C++20
+RUN apt-get -y install clang
+
+# Note that Python 3.8 is installed with nano
+
+# Install Clang Compiler for Haskell
+RUN apt-get -y install ghc
+
+
+# Change back to default user
+USER openvscode-server
