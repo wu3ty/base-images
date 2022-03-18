@@ -1,0 +1,14 @@
+# Use minimal jupyter notebook base 
+FROM jupyter/minimal-notebook 
+
+USER root
+
+# Install OS package dependencies for OR lecture
+RUN apt-get update --yes && apt-get install --yes coinor-cbc
+
+# Switch back to default jupyter user
+USER ${NB_UID}
+
+# Install required Python packages
+RUN pip install ortools
+
