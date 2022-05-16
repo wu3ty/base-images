@@ -1,6 +1,8 @@
 # Use minimal jupyter notebook base 
 FROM jupyter/minimal-notebook 
 
+ENV PASSWORD="or2022" 
+
 USER root
 
 # Install OS package dependencies for OR lecture
@@ -10,5 +12,5 @@ RUN apt-get update --yes && apt-get install --yes coinor-cbc
 USER ${NB_UID}
 
 # Install required Python packages
-RUN pip install ortools
+RUN pip install ortools matplotlib
 

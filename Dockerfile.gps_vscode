@@ -7,16 +7,15 @@ USER root
 # Update applications in base image
 RUN apt-get -y update && apt-get install -y
 
-# install simple editor
-RUN apt-get install -y nano bash
-
 # Install Clang Compiler for C++20
 RUN apt-get -y install clang
-
-# Note that Python 3.8 is installed with nano
+RUN apt-get -y install build-essential gdb
 
 # Install Clang Compiler for Haskell
 RUN apt-get -y install ghc
+
+# Install Python 3.8
+RUN apt-get -y install python3.8
 
 
 # Change back to default user
